@@ -3,12 +3,8 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import logging
-from dotenv import load_dotenv
 
 from app.routers import stylizer
-
-# Load environment variables
-load_dotenv()
 
 # Configure logging
 logging.basicConfig(

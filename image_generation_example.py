@@ -7,10 +7,6 @@ import os
 import base64
 from PIL import Image
 from openai import OpenAI
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
 
 # Get API key
 api_key = os.getenv("OPENAI_API_KEY")
