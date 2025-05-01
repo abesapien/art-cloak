@@ -1,0 +1,18 @@
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Dependency directories
+node_modules/
+venv/
+__pycache__/
+*.py[cod]
+
+# Temporary files
+temp/
+.DS_Store
+
+# Distribution directories
+dist/
+build/

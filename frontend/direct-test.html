@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple API Test</title>
+</head>
+<body>
+    <h1>API Test Form</h1>
+    <p>This form submits directly to the API endpoint</p>
+    
+    <!-- Important: This form uses a direct form submit, not JavaScript -->
+    <form action="http://localhost:8080/generate/" method="post" enctype="multipart/form-data">
+        <p>
+            <label for="file">Select image:</label><br>
+            <input type="file" name="file" id="file" required>
+        </p>
+        
+        <p>
+            <label for="prompt">Prompt:</label><br>
+            <input type="text" name="prompt" id="prompt" value="studio ghibli style" required>
+        </p>
+        
+        <p>
+            <input type="submit" value="Submit to API">
+        </p>
+    </form>
+</body>
+</html>

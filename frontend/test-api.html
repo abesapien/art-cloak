@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtCloak API Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #1a73e8;
+        }
+        form {
+            border: 1px solid #dadce0;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input, button {
+            margin-bottom: 15px;
+            font-size: 16px;
+            padding: 8px;
+        }
+        button {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #135cbe;
+        }
+        #result {
+            margin-top: 20px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>ArtCloak API Test</h1>
+    <p>This is a simple form to test the API endpoint directly</p>
+    
+    <form id="apiForm">
+        <div>
+            <label for="file">Select Image File (JPEG/PNG):</label>
+            <input type="file" id="file" name="file" accept="image/jpeg, image/png" required>
+        </div>
+        <div>
+            <label for="prompt">Style Prompt:</label>
+            <input type="text" id="prompt" name="prompt" value="studio ghibli style" required>
+        </div>
+        <div>
+            <label for="endpoint">API Endpoint:</label>
+            <input type="text" id="endpoint" name="endpoint" value="http://localhost:8080/generate/" style="width: 350px;" required>
+        </div>
+        <button type="submit">Send Request</button>
+    </form>
+    
+    <div id="result"></div>
+    
+    <script>
+        document.getElementById('apiForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<div class="status">Sending request...</div>';
+            
+            const fileInput = document.getElementById('file');
+            const promptInput = document.getElementById('prompt');
+            const endpointInput = document.getElementById('endpoint');
+            
+            if (!fileInput.files || fileInput.files.length === 0) {
+                resultDiv.innerHTML = '<div class="status error">Please select a file</div>';
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const prompt = promptInput.value;
+            const endpoint = endpointInput.value;
+            
+            try {
+                // Log details for debugging
+                console.log('File:', file);
+                console.log('File name:', file.name);
+                console.log('File type:', file.type);
+                console.log('File size:', file.size);
+                console.log('Prompt:', prompt);
+                console.log('Endpoint:', endpoint);
+                
+                // Create FormData
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('prompt', prompt);
+                
+                // Check FormData
+                console.log('FormData contents:');
+                for (let pair of formData.entries()) {
+                    console.log(' -', pair[0] + ':', pair[1]);
+                }
+                
+                // Send the request
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                // Process the response
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Server responded with ${response.status}: ${response.statusText}\n${errorText}`);
+                }
+                
+                // Get the image from the response
+                const blob = await response.blob();
+                console.log('Response received:', blob);
+                
+                // Display success and the image
+                const imageUrl = URL.createObjectURL(blob);
+                resultDiv.innerHTML = `
+                    <div class="status success">Request successful! Image received (${blob.size} bytes)</div>
+                    <h3>Response Image:</h3>
+                    <img src="${imageUrl}" alt="Generated Image">
+                `;
+                
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `
+                    <div class="status error">Error: ${error.message}</div>
+                    <h3>Debug Information:</h3>
+                    <pre>${JSON.stringify({
+                        fileName: file.name,
+                        fileType: file.type,
+                        fileSize: file.size,
+                        prompt: prompt,
+                        endpoint: endpoint
+                    }, null, 2)}</pre>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

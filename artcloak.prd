@@ -1,0 +1,98 @@
+# Ghibli Stylizer FastAPI Application
+
+## Product Requirements Document (PRD)
+
+### Overview
+The "Ghibli Stylizer" is a FastAPI-based web service that accepts an image upload from a user, sends the image to the OpenAI API to recreate it in the artistic style of a Studio Ghibli movie, and returns the resulting stylized image to the user.
+
+---
+
+### Goals
+- Provide users with an easy way to stylize their photos/images in the iconic Studio Ghibli anime style.
+- Ensure fast and reliable upload, processing, and download functionality.
+- Maintain high-quality image outputs (1024x1024 resolution).
+- Handle input images flexibly (accept JPG or PNG formats).
+- Maintain security and operational reliability.
+
+---
+
+### Features
+
+#### Core Features
+- **POST /stylize/** endpoint to upload a user image.
+- **Auto-convert** uploaded images to PNG if necessary.
+- **Interact** with OpenAI's API for Ghibli-style transformation.
+- **Download and return** the stylized image automatically to the user.
+
+#### Input
+- File upload via HTTP POST (JPG or PNG).
+
+#### Output
+- Single PNG image returned in HTTP response.
+
+#### Performance
+- Average end-to-end response time should be under 30 seconds for normal load.
+
+#### Error Handling
+- Return appropriate HTTP 500 error if the transformation process fails.
+- Handle image format issues gracefully.
+
+#### API Documentation
+- Interactive Swagger UI at `/docs` generated automatically by FastAPI.
+
+#### Security
+- API key for OpenAI stored securely in environment variables.
+
+#### Deployment
+- Local development supported via Uvicorn.
+- Cloud deployment-ready (Docker optional in later stages).
+
+---
+
+### Technical Stack
+- **Backend Framework**: FastAPI
+- **Image Processing**: Pillow
+- **External API**: OpenAI API
+- **HTTP Requests**: Requests
+- **Runtime**: Python 3.10+
+
+---
+
+## Business Rules
+
+1. **File Format Acceptance**
+   - Only images with `.jpg`, `.jpeg`, or `.png` extensions are accepted.
+   - JPG files will be automatically converted to PNG internally.
+
+2. **OpenAI API Usage**
+   - API key must be provided securely via environment variables (`OPENAI_API_KEY`).
+   - Image editing request must use a fixed Ghibli-style prompt.
+
+3. **Image Output**
+   - Output images must be saved temporarily on the server and immediately returned.
+   - Output images should be deleted after being sent unless persistent storage is added later.
+
+4. **Image Size**
+   - Processed images will be resized to `1024x1024` pixels unless future scaling options are added.
+
+5. **Error Handling**
+   - If an error occurs during processing (upload failure, API failure, download failure), a `500 Internal Server Error` will be returned.
+
+6. **Authentication and Usage Limits**
+   - No user authentication is enforced at MVP stage.
+   - Later versions may include rate limiting to avoid API overuse.
+
+7. **User Interface**
+   - No frontend at MVP. Interaction is through API endpoints directly (Swagger UI or via API clients like Postman).
+
+8. **Licensing and Artistic Responsibility**
+   - The application should make clear to users that it is "inspired by Studio Ghibli" and is not affiliated with Studio Ghibli officially.
+
+9. **Scaling Considerations**
+   - The architecture must allow easy scaling of API requests and background processing if user load increases.
+
+10. **Compliance**
+    - Image uploads must not contain prohibited content (e.g., illegal images). Future versions may add content moderation filters.
+
+---
+

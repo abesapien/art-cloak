@@ -1,0 +1,22 @@
+{
+  "name": "artcloak-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for ArtCloak Ghibli Style Generator",
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "start": "lite-server"
+  },
+  "keywords": [
+    "typescript",
+    "openai",
+    "ghibli"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lite-server": "^2.6.1",
+    "typescript": "^5.0.4"
+  }
+}
