@@ -12,6 +12,8 @@ __pycache__/
 # Temporary files
 temp/
 .DS_Store
+debug_api.sh
+debug_curl.sh
 
 # Distribution directories
 dist/
