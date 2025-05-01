@@ -1,0 +1,12 @@
+# Exported from Render on 2025-05-01T11:31:46Z
+services:
+- type: web
+  name: art-cloak
+  runtime: python
+  repo: https://github.com/abesapien/art-cloak
+  plan: free
+  region: oregon
+  buildCommand: pip install -r requirements.txt
+  startCommand: ./start.sh
+version: "1"
+
