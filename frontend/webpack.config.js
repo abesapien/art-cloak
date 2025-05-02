@@ -24,4 +24,6 @@ module.exports = {
       systemvars: true, // Load all system variables
     }),
   ],
+  // Ensure ES5 compatibility for older browsers like Safari
+  target: ['web', 'es5'],
 };
