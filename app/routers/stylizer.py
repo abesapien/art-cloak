@@ -265,7 +265,7 @@ async def health_check():
     """
     Simple health check endpoint to verify the API is running correctly.
     """
-    return {"status": "ok", "message": "API is running"}
+    return {"status": "healthy"}
 
 @router.post("/generate/", response_class=Response, summary="Generate an image by editing a reference image")
 async def generate_image(
