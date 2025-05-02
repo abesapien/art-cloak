@@ -215,6 +215,12 @@ main {
 #loading-container {
     text-align: center;
     padding: 2rem;
+    width: 100%;
+    max-width: 600px;
+    background-color: var(--light-gray);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 2rem;
 }
 
 .loader {

@@ -39,6 +39,15 @@
                 </div>
             </div>
 
+            <div id="loading-container" class="hidden">
+                <div class="loader"></div>
+                <p id="status-message">Transforming your image...</p>
+                <p class="small">This may take up to 2 minutes</p>
+                <div class="progress-container">
+                    <div id="progress-bar"></div>
+                </div>
+            </div>
+
             <div id="result-container" class="hidden">
                 <h2>Your Transformed Image</h2>
                 <div class="image-comparison">
@@ -54,15 +63,6 @@
                 <div class="buttons">
                     <a id="download-link" class="button" download="ghibli-style.png">Download Image</a>
                     <button id="new-transform-button" class="button secondary">Transform Another Image</button>
-                </div>
-            </div>
-
-            <div id="loading-container" class="hidden">
-                <div class="loader"></div>
-                <p id="status-message">Transforming your image...</p>
-                <p class="small">This may take up to 2 minutes</p>
-                <div class="progress-container">
-                    <div id="progress-bar"></div>
                 </div>
             </div>
         </main>
