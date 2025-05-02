@@ -42,10 +42,12 @@ fi
 # Create temp directory if it doesn't exist
 mkdir -p ./temp
 
-# Build the frontend
+# Build the frontend with API URL set to the backend
 echo -e "${BLUE}Building frontend...${NC}"
 cd ./frontend
 npm install --silent
+# Set the API URL to point to the backend
+export ARTCLOAK_API_URL="http://localhost:8080"
 npm run build
 cd ..
 echo -e "${GREEN}✓ Frontend built successfully${NC}"
@@ -82,7 +84,7 @@ echo -e "${BLUE}Backend API:${NC} http://localhost:8080"
 echo -e "${BLUE}Frontend:${NC} http://localhost:3080"
 echo -e "${BLUE}API Documentation:${NC} http://localhost:8080/docs"
 echo -e "\n${YELLOW}IMPORTANT:${NC} The backend is running on port 8080 as specified."
-echo -e "${YELLOW}IMPORTANT:${NC} The frontend is hardcoded to use http://localhost:8080 for API access."
+echo -e "${YELLOW}IMPORTANT:${NC} The frontend is configured to use http://localhost:8080 for API access via the ARTCLOAK_API_URL environment variable."
 echo -e "\n${YELLOW}Press Ctrl+C to stop the application${NC}\n"
 
 # Trap Ctrl+C to kill both servers

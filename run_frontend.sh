@@ -50,9 +50,20 @@ if [ $PORT -ge $MAX_PORT ]; then
     exit 1
 fi
 
-# Start a simple HTTP server
+# Get the backend URL from environment variable or use default
+BACKEND_URL=${ARTCLOAK_API_URL:-http://localhost:8080}
+echo "Using backend API URL: $BACKEND_URL"
+
+# Build the frontend with the current environment variables
+echo "Building frontend with current environment variables..."
+ARTCLOAK_API_URL=$BACKEND_URL npm run build
+
+echo "Build completed. Starting server..."
+
+# Start a simple HTTP server in the dist directory
 echo "Starting server at http://localhost:$PORT"
 echo "Press Ctrl+C to stop the server"
 
-# Start the server
+# Change to the dist directory and start the server
+cd dist
 $PYTHON -m http.server $PORT

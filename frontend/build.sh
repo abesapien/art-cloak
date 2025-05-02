@@ -19,15 +19,14 @@ echo "Cleaning dist directory..."
 rm -rf dist
 mkdir -p dist
 
-# Compile TypeScript files
-echo "Compiling TypeScript..."
-npx tsc
+# Build with webpack (will handle TypeScript compilation)
+echo "Building with webpack..."
+npx webpack --mode production
 
 # Copy static files to dist directory
 echo "Copying static files to dist directory..."
 cp index.html dist/
 cp style.css dist/
-cp logger.js dist/
 
 echo "Build complete. Frontend files are in dist/"
 echo "To test the build, run: cd dist && python -m http.server 3000"

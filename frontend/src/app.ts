@@ -22,13 +22,18 @@ class ArtCloakApp {
     // Selected file
     private selectedFile: File | null = null;
     
-    // Hardcoded API URL as specified
-    private readonly apiBaseUrl: string = 'http://localhost:8080';
+    // Get API URL from environment variable or fallback to localhost
+    private readonly apiBaseUrl: string = process.env.ARTCLOAK_API_URL ? 
+        process.env.ARTCLOAK_API_URL as string : 'http://localhost:8080';
     
     // API endpoint for image generation
-    private readonly apiEndpoint: string = 'http://localhost:8080/generate/';
+    private readonly apiEndpoint: string = `${this.apiBaseUrl}/generate/`;
     
     constructor() {
+        // Log the API URL being used
+        console.log('ArtCloak initialized with API URL:', this.apiBaseUrl);
+        console.log('API endpoint for image generation:', this.apiEndpoint);
+        
         // Initialize DOM elements
         this.dropArea = document.getElementById('drop-area') as HTMLElement;
         this.fileInput = document.getElementById('file-input') as HTMLInputElement;
