@@ -164,12 +164,12 @@ class ArtCloakApp {
         
         let progress = 0;
         
-        // Update progress every 500ms
+        // Update progress every 1000ms (1 second) for a slower animation
         this.progressInterval = window.setInterval(() => {
-            // Slow down progress as it gets closer to 90%
-            const increment = progress < 30 ? 2 : 
-                             progress < 60 ? 1 : 
-                             progress < 85 ? 0.5 : 0.2;
+            // Slow down progress significantly to account for longer processing time (up to 2 minutes)
+            const increment = progress < 30 ? 1 : 
+                             progress < 60 ? 0.5 : 
+                             progress < 85 ? 0.3 : 0.1;
                              
             progress = Math.min(progress + increment, 90);
             
@@ -183,9 +183,11 @@ class ArtCloakApp {
                 this.statusMessage.textContent = "Applying transformation...";
             } else if (progress > 70 && progress < 72) {
                 this.statusMessage.textContent = "Generating final image...";
+            } else if (progress > 85 && progress < 87) {
+                this.statusMessage.textContent = "Almost done...";
             }
             
-        }, 500);
+        }, 1000);
     }
     
     private stopProgressSimulation(): void {
@@ -246,9 +248,9 @@ class ArtCloakApp {
             
             this.statusMessage.textContent = `Sending image to API for ${style} transformation...`;
             
-            // Create a timeout promise to handle long-running requests (30 seconds)
+            // Create a timeout promise to handle long-running requests (2 minutes)
             const timeout = new Promise<Response>((_, reject) => {
-                setTimeout(() => reject(new Error('Request timed out after 30 seconds')), 30000);
+                setTimeout(() => reject(new Error('Request timed out after 2 minutes')), 120000);
             });
             
             // Log for debug
@@ -307,7 +309,7 @@ class ArtCloakApp {
                 if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
                     errorMessage = 'Network error: Please check your connection and make sure the backend server is running.';
                 } else if (error.message.includes('timed out')) {
-                    errorMessage = 'Request timed out. The server is taking too long to respond. This might happen if the API is busy.';
+                    errorMessage = 'Request timed out after 2 minutes. Image generation can take up to 2 minutes depending on complexity. Please try again or use a smaller image.';
                 }
             }
             
